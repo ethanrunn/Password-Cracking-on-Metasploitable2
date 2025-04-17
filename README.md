@@ -13,7 +13,7 @@ Recover user passwords from an open-source system using password-cracking tools 
 | **John the Ripper** | Password hash cracking tool |
 | **Hashcat** (optional) | GPU-based password recovery tool |
 | **rockyou.txt** | Common password wordlist used for dictionary attacks |
-| **Kali Linux | Attacker machine with pre-installed security tools |
+| **Kali Linux** | Attacker machine with pre-installed security tools |
 
 ---
 
@@ -93,7 +93,6 @@ Using John the Ripper with the `rockyou.txt` wordlist, I successfully recovered 
 
 ## 📸 Screenshots
 
-> ✅ Include screenshots of:
 > - Cracking process in terminal
 
 ![Cracking](images/password-cracking.png)
