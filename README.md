@@ -20,8 +20,10 @@ Recover user passwords from an open-source system using password-cracking tools 
 ## 🧪 Environment Setup
 
 - **Host System**: VirtualBox or VMware installed on local machine
+- - **Attacker**: Kali Linux
+    ![Kali Linux](images/kali.png)
 - **Target**: Metasploitable2 VM
-- **Attacker**: Kali Linux
+  ![Meta](images/metasploitable2.png)
 - **Network Mode**: Host-only or Internal to simulate a secure lab
 
 ---
@@ -48,27 +50,21 @@ Recover user passwords from an open-source system using password-cracking tools 
   ```
 ---
 
-🧩 Challenges Faced and Solutions
+## 🧩 Challenges Faced and Solutions
 During the execution of this project, I encountered a few key challenges that helped deepen my understanding of real-world troubleshooting in cybersecurity environments:
 
-Black Screen Issue on Metasploitable2 Boot
-Upon starting the Metasploitable2 VM, the screen remained blank. This was resolved by switching the VM's graphics settings to use "Accelerate 3D graphics" or rebooting the VM cleanly from VMWare’s interface.
+### 1. Black Screen Issue on Metasploitable2 Boot
+Upon starting the Metasploitable2 VM, the screen remained blank. This was resolved by switching the VM's graphics settings to use "Accelerate 3D graphics" or rebooting the VM cleanly from VMware’s interface.
 
-SSH Connection Error – No Matching Host Key Type
+### 2. SSH Connection Error – No Matching Host Key Type
 While trying to SSH from Kali to Metasploitable2, an error occurred due to deprecated host key algorithms. I resolved it by creating a custom SSH config file that explicitly allowed the older key types ssh-rsa and ssh-dss.
 
-Permission Denied on Shadow File Copy
+### 3. Permission Denied on Shadow File Copy
 Attempting to SCP the shadow file resulted in a permission error. Since elevated permissions are required to access /etc/shadow, I used sudo cp within the VM to copy it to a readable location (/home/msfadmin/) before transferring.
 
-Wordlist Not Found
+### 4. Wordlist Not Found
 When using John the Ripper with the rockyou.txt wordlist, an error indicated the file was missing. I corrected this by extracting the compressed version using:
-
-bash
-Copy
-Edit
-sudo gzip -d /usr/share/wordlists/rockyou.txt.gz
-Internet Connectivity Issues in Kali VM
-My Kali VM couldn't connect to the internet due to the "Temporary failure in name resolution" error. This was fixed by switching the network adapter from Host-Only to NAT, allowing DNS resolution and package installation via apt.
+`sudo gzip -d /usr/share/wordlists/rockyou.txt.gz`
 
 These obstacles not only tested my patience and problem-solving skills but also reinforced the importance of adaptable troubleshooting in cybersecurity workflows.
 
@@ -78,9 +74,10 @@ These obstacles not only tested my patience and problem-solving skills but also 
 
 > ✅ Include screenshots of:
 > - Cracking process in terminal
-
+![Cracking](images/password-cracking.png)
+![Cracking](images/password-cracking2.png)
 > - Successfully recovered passwords
-
+![Cracked](images/cracked-hashes.png)
 
 ---
 
