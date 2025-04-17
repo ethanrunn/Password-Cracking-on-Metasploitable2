@@ -21,9 +21,13 @@ Recover user passwords from an open-source system using password-cracking tools 
 
 - **Host System**: VirtualBox or VMware installed on local machine
 - - **Attacker**: Kali Linux
+
     ![Kali Linux](images/kali.png)
+
 - **Target**: Metasploitable2 VM
+
   ![Meta](images/metasploitable2.png)
+
 - **Network Mode**: Host-only or Internal to simulate a secure lab
 
 ---
@@ -62,11 +66,28 @@ While trying to SSH from Kali to Metasploitable2, an error occurred due to depre
 ### 3. Permission Denied on Shadow File Copy
 Attempting to SCP the shadow file resulted in a permission error. Since elevated permissions are required to access /etc/shadow, I used sudo cp within the VM to copy it to a readable location (/home/msfadmin/) before transferring.
 
-### 4. Wordlist Not Found
+### 4. John the Ripper: “No password hashes loaded” Error
+When attempting to run John the Ripper, I got “No password hashes loaded (see FAQ)”. The combined password and shadow file was not properly formatted. I used the unshadow tool to merge both files correctly. This then generated a valid input file for hash cracking.
+
+### 5. Wordlist Not Found
 When using John the Ripper with the rockyou.txt wordlist, an error indicated the file was missing. I corrected this by extracting the compressed version using:
 `sudo gzip -d /usr/share/wordlists/rockyou.txt.gz`
 
+### 6. Partial Hash Cracking
+Out of 7 password hashes, only 3 were cracked using rockyou.txt. I documented the success and identified remaining hashes for future cracking using additional wordlists, mangling rules, or more powerful tools like Hashcat.
+
 These obstacles not only tested my patience and problem-solving skills but also reinforced the importance of adaptable troubleshooting in cybersecurity workflows.
+
+---
+
+## Results
+Using John the Ripper with the `rockyou.txt` wordlist, I successfully recovered 3 plaintext passwords from the combined `passwd` and `shadow` file hashes.
+
+| Username | Password |
+|------|---------|
+| **Sys** | batman |
+| **Klog** | 123456789 |
+| **Service** | service |
 
 ---
 
@@ -74,9 +95,13 @@ These obstacles not only tested my patience and problem-solving skills but also 
 
 > ✅ Include screenshots of:
 > - Cracking process in terminal
+
 ![Cracking](images/password-cracking.png)
+
 ![Cracking](images/password-cracking2.png)
+
 > - Successfully recovered passwords
+
 ![Cracked](images/cracked-hashes.png)
 
 ---
@@ -86,10 +111,11 @@ These obstacles not only tested my patience and problem-solving skills but also 
 To reduce the risk of password cracking:
 
 - Use **complex, lengthy passwords** (avoid dictionary words)
-- Enforce **password rotation** and **account lockouts** after failed login attempts
-- Apply **salting and hashing** (e.g., bcrypt, scrypt) before storing passwords
+- Enforce **password rotation**, **rate limiting** and **account lockouts** after failed login attempts
+- Apply **salting and strong hash algorithm** (e.g., bcrypt, scrypt) before storing passwords
 - Implement **Multi-Factor Authentication (MFA)**
 - Conduct regular **security audits** and **user education**
+- Monitor logs for **brute-force activity**
 
 ---
 
